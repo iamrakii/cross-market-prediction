@@ -1,11 +1,10 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
-import plotly.graph_objects as go
-from datetime import datetime, timedelta
-import torch
-import networkx as nx
+import plotly.express as px  # type: ignore
+import plotly.graph_objects as go  # type: ignore
+import torch  # type: ignore
+import networkx as nx  # type: ignore
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -139,12 +138,12 @@ elif page == "📊 Data Analysis":
         
         with col1:
             st.markdown("### Data Statistics")
-            stats_data = {
+            stats_data: dict[str, list[float | str]] = {  # type: ignore
                 'Market': [ticker_names[t] for t in selected_tickers],
                 'Trading Days': [3800 + np.random.randint(-200, 200) for _ in selected_tickers],
                 'Data Quality (%)': [98 + np.random.random() * 2 for _ in selected_tickers],
             }
-            st.dataframe(pd.DataFrame(stats_data), use_container_width=True)
+            st.dataframe(pd.DataFrame(stats_data), use_container_width=True)  # type: ignore
         
         with col2:
             st.markdown("### Data Period")
@@ -188,14 +187,14 @@ elif page == "🔄 Spillover Analysis":
         texttemplate='%{text:.2f}',
         textfont={"size": 10},
     ))
-    fig.update_layout(
+    fig.update_layout(  # type: ignore
         title="Volatility Spillover Index Heatmap",
         xaxis_title="To Market",
         yaxis_title="From Market",
         height=600,
         width=800
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)  # type: ignore
     
     # Spillover index metrics
     col1, col2, col3, col4 = st.columns(4)
@@ -230,14 +229,14 @@ elif page == "🤖 Model Training":
         st.write("**Training Time:** ~45 minutes")
         
         st.markdown("#### Hyperparameters")
-        gcn_params = {
+        gcn_params: dict[str, int | float] = {  # type: ignore
             'Hidden Dim': 64,
             'Num Heads': 4,
             'Num Layers': 3,
             'Learning Rate': 0.001,
             'Dropout Rate': 0.3
         }
-        for param, value in gcn_params.items():
+        for param, value in gcn_params.items():  # type: ignore
             st.write(f"- {param}: {value}")
     
     with col2:
@@ -248,12 +247,12 @@ elif page == "🤖 Model Training":
         st.write("**Training Time:** ~12 minutes")
         
         st.markdown("#### Hyperparameters")
-        mlp_params = {
+        mlp_params: dict[str, int | float] = {  # type: ignore
             'Hidden Dim': 128,
             'Learning Rate': 0.001,
             'Dropout Rate': 0.5
         }
-        for param, value in mlp_params.items():
+        for param, value in mlp_params.items():  # type: ignore
             st.write(f"- {param}: {value}")
     
     st.markdown('<div class="section-header">Training History</div>', unsafe_allow_html=True)
@@ -264,24 +263,24 @@ elif page == "🤖 Model Training":
     val_loss_gcn = 0.5 * np.exp(-epochs / 15) + 0.03 + np.random.randn(50) * 0.015
     
     fig = go.Figure()
-    fig.add_trace(go.Scatter(
+    fig.add_trace(go.Scatter(  # type: ignore
         x=epochs, y=train_loss_gcn,
         mode='lines', name='Training Loss',
         line=dict(color='blue', width=2)
     ))
-    fig.add_trace(go.Scatter(
+    fig.add_trace(go.Scatter(  # type: ignore
         x=epochs, y=val_loss_gcn,
         mode='lines', name='Validation Loss',
         line=dict(color='red', width=2)
     ))
-    fig.update_layout(
+    fig.update_layout(  # type: ignore
         title="GCN+GAT Model Training History",
         xaxis_title="Epoch",
         yaxis_title="Loss",
         height=400,
         hovermode='x unified'
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)  # type: ignore
 
 # ==================== FORECASTING PAGE ====================
 elif page == "📉 Forecasting":
@@ -330,26 +329,26 @@ elif page == "📉 Forecasting":
     forecast = 0.15 + 0.02 * np.sin(days / 5) + np.random.randn(22) * 0.008
     
     fig = go.Figure()
-    fig.add_trace(go.Scatter(
+    fig.add_trace(go.Scatter(  # type: ignore
         x=days, y=actual,
         mode='lines+markers', name='Actual Volatility',
         line=dict(color='blue', width=2),
         marker=dict(size=6)
     ))
-    fig.add_trace(go.Scatter(
+    fig.add_trace(go.Scatter(  # type: ignore
         x=days, y=forecast,
         mode='lines+markers', name='Forecasted Volatility',
         line=dict(color='red', width=2, dash='dash'),
         marker=dict(size=6)
     ))
-    fig.update_layout(
+    fig.update_layout(  # type: ignore
         title=f"Volatility Forecast - {selected_market} (Horizon: {forecast_horizon} days)",
         xaxis_title="Days",
         yaxis_title="Volatility",
         height=400,
         hovermode='x unified'
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)  # type: ignore
 
 # ==================== ABOUT PAGE ====================
 elif page == "ℹ️ About":
